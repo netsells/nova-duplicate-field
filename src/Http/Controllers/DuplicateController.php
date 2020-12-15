@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class DuplicateController extends Controller
@@ -53,13 +54,11 @@ class DuplicateController extends Controller
                             $relatedPivotKey = $relation_data->getRelatedPivotKeyName();
                             unset($pivot->{$relatedPivotKey});
 
-                            $newModel->{$relation}()->attach($item->id , $pivot->toArray());
+                            $newModel->{$relation}()->attach($item->id, $pivot->toArray());
                         }
                         break;
                     case HasMany::class:
-                    case HasOne::class:
                     case MorphMany::class:
-                    case MorphOne::class:
                         foreach ($items as $item) {
                             // clean up our models, remove the id and remove the appends
                             unset($item->id);
@@ -68,6 +67,15 @@ class DuplicateController extends Controller
                             // create a relation on the new model with the data.
                             $newModel->{$relation}()->create($item->toArray());
                         }
+                        break;
+                    case HasOne::class:
+                    case MorphOne::class:
+                        // clean up our models, remove the id and remove the appends
+                        unset($items->id);
+                        $items->setAppends([]);
+
+                        // create a relation on the new model with the data.
+                        $newModel->{$relation}()->create($items->toArray());
                         break;
                     default:
                         return [
