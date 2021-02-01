@@ -67,6 +67,10 @@ class DuplicateController extends Controller
                     case HasMany::class:
                     case MorphMany::class:
                         foreach ($items as $item) {
+                            if (!$item) {
+                                continue;
+                            }
+
                             // clean up our models, remove the id and remove the appends
                             unset($item->id);
                             $item->setAppends([]);
@@ -77,6 +81,10 @@ class DuplicateController extends Controller
                         break;
                     case HasOne::class:
                     case MorphOne::class:
+                        if (!$items) {
+                            continue;
+                        }
+
                         // clean up our models, remove the id and remove the appends
                         unset($items->id);
                         $items->setAppends([]);
