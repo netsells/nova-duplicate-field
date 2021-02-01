@@ -1,7 +1,7 @@
 {
   "name": "netsells/nova-duplicate-field",
   "description": "A Laravel Nova field to duplicate records.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "keywords": [
     "laravel",
     "nova",
