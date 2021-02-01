@@ -21,7 +21,7 @@ class DuplicateController extends Controller
     public function duplicate(Request $request)
     {
         // Replicate the model
-        $model = $request->model::where('id', $request->id)->withTrashed()->first();
+        $model = $request->model::where('id', $request->id)->first();
 
         if (!$model) {
             return [
