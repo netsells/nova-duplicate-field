@@ -82,7 +82,7 @@ class DuplicateController extends Controller
                     case HasOne::class:
                     case MorphOne::class:
                         if (!$items) {
-                            continue;
+                            continue 2;
                         }
 
                         // clean up our models, remove the id and remove the appends
